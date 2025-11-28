@@ -10,19 +10,19 @@ import es.iescamas.multihilo.monitor.MonitorFilosofoConPortero;
 public final class Utilidad implements Runnable {
 
     private final MonitorFilosofos monitor;
-    private final MonitorFilosofoConPortero monitorPortero; // puede ser null
+  //  private final MonitorFilosofoConPortero monitorPortero; // puede ser null
     private volatile boolean ejecutando = true;
     private volatile boolean pausado = false;
 
     public Utilidad(final MonitorFilosofos monitor) {
-        this(monitor, null);
+       this.monitor = monitor;
     }
 
-    public Utilidad(final MonitorFilosofos monitor,
+  /*  public Utilidad(final MonitorFilosofos monitor,
                     final MonitorFilosofoConPortero monitorPortero) {
         this.monitor = monitor;
         this.monitorPortero = monitorPortero;
-    }
+    }*/
 
     public void detener() {
         ejecutando = false;
@@ -41,7 +41,7 @@ public final class Utilidad implements Runnable {
         try {
             while (ejecutando && !Thread.currentThread().isInterrupted()) {
                 if (!pausado) {
-                    System.out.println(crearTabla(monitor, monitorPortero));
+                    System.out.println(crearTabla(monitor));
                 }
                 Thread.sleep(500L);
             }
@@ -54,8 +54,7 @@ public final class Utilidad implements Runnable {
     // CREACIÓN DE LA TABLA
     // =============================================================
 
-    public static String crearTabla(final MonitorFilosofos monitor,
-                                    final MonitorFilosofoConPortero monitorPortero) {
+    public static String crearTabla(final MonitorFilosofos monitor) {
         final int n = monitor.getNumFilosofos();
         final StringBuilder sb = new StringBuilder();
 
@@ -91,9 +90,9 @@ public final class Utilidad implements Runnable {
         sb.append(sep).append("\n");
 
         // Mostrar quién está fuera del portero
-        if (monitorPortero != null) {
+      /*  if (monitorPortero != null) {
             sb.append(crearLineaFueraPortero(monitorPortero));
-        }
+        }*/
 
         return sb.toString();
     }
