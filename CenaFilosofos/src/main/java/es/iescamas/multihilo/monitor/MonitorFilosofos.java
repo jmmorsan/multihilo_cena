@@ -52,6 +52,19 @@ public final class MonitorFilosofos {
     // -----------------------------------------------------------
     //  Lógica principal
     // -----------------------------------------------------------
+    
+    /**
+     * El filósofo solicita los tenedores para poder comer. Si no puede obtenerlos
+     * de inmediato, el hilo se bloquea hasta que sea notificado.
+     * * <p><strong>Estados del Hilo:</strong></p>
+     * <ul>
+     * <li><b>RUNNABLE:</b> El hilo entra a la sección crítica (monitor).</li>
+     * <li><b>WAITING:</b> Si la condición lógica de {@code intentarComer} no se cumple,
+     * el hilo libera el monitor y se suspende invocando {@code wait()}.</li>
+     * </ul>
+     * * @param idFilosofo El identificador del filósofo.
+     * @throws InterruptedException Si el hilo es interrumpido mientras está esperando (WAITING).
+     */
 
     public synchronized void tomarTenedores(final int idFilosofo) throws InterruptedException {
         estado[idFilosofo] = HAMBRIENTO;
@@ -76,6 +89,17 @@ public final class MonitorFilosofos {
 
         notifyAll();
     }
+    
+    /**
+     * Intenta que el filósofo especificado pase al estado COMIENDO, verificando
+     * la disponibilidad de los tenedores.
+     * * <p><strong>Condición Lógica:</strong> Se comprueba que el filósofo tenga estado
+     * HAMBRIENTO y que sus vecinos inmediatos (izquierda y derecha) NO estén en 
+     * estado COMIENDO.</p>
+     * * <p><strong>Invariante:</strong> Garantiza la exclusión mutua, asegurando que
+     * nunca haya dos filósofos vecinos comiendo simultáneamente.</p>
+     * * @param idFilosofo El identificador del filósofo (0..N-1).
+     */
 
     private void intentarComer(final int idFilosofo) {
 

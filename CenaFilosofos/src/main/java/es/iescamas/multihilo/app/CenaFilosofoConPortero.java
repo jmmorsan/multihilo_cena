@@ -37,7 +37,7 @@ public final class CenaFilosofoConPortero {
         // Array para poder interrumpir los hilos después
         final Thread[] hilos = new Thread[N];
         
-     // Crear utilidad de monitorización
+        // Crear utilidad de monitorización
 
         Thread hiloUtilidad = new Thread(new Utilidad(monitorBase), "Monitor-Utilidad");
         hiloUtilidad.start();
